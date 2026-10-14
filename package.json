@@ -1,0 +1,34 @@
+{
+  "name": "devjson-studio",
+  "private": true,
+  "version": "1.0.0",
+  "description": "100% Client-Side API Response Studio, TypeScript & Zod Generator",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "idb-keyval": "^6.3.0",
+    "jsonrepair": "^3.15.0",
+    "lucide-react": "^1.57.0",
+    "lz-string": "^1.5.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/lz-string": "^1.3.34",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "autoprefixer": "^10.6.1",
+    "oxlint": "^1.81.0",
+    "postcss": "^8.5.30",
+    "tailwindcss": "^3.4.19",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}
