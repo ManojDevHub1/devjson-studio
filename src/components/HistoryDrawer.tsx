@@ -72,17 +72,17 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
 
       {/* Drawer Panel */}
       <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-[#0F0F12] border-l border-zinc-800 flex flex-col shadow-2xl animate-command-palette">
+        <div className="w-screen max-w-md bg-[#121417] border-l border-[#20242A] flex flex-col shadow-2xl animate-command-palette">
           {/* Header */}
-          <div className="h-12 border-b border-zinc-800 px-4 flex items-center justify-between shrink-0 bg-[#141418]">
+          <div className="h-12 border-b border-[#20242A] px-4 flex items-center justify-between shrink-0 bg-[#0C0D0F]">
             <div className="flex items-center space-x-2.5">
-              <div className="w-7 h-7 rounded-md bg-indigo-950/80 border border-indigo-800/60 flex items-center justify-center text-indigo-400">
+              <div className="w-7 h-7 rounded bg-[#161B22] border border-[#30363D] flex items-center justify-center text-sky-400">
                 <History className="w-3.5 h-3.5" />
               </div>
               <div>
                 <h2 className="text-xs font-semibold text-zinc-100 flex items-center gap-2">
                   Session Snapshots
-                  <span className="text-[10px] px-1.5 py-0.2 rounded font-mono bg-zinc-800 text-zinc-300 border border-zinc-700">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded font-mono bg-[#1C2026] text-zinc-300 border border-[#2C323B]">
                     {sessions.length}/15
                   </span>
                 </h2>
@@ -92,14 +92,15 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              className="p-1.5 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+              aria-label="Close history drawer"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Search bar */}
-          <div className="p-3 border-b border-zinc-800 bg-[#0A0A0D]">
+          <div className="p-3 border-b border-[#20242A] bg-[#0C0D0F]">
             <div className="relative">
               <Search className="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
               <input
@@ -107,7 +108,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                 value={filterQuery}
                 onChange={(e) => setFilterQuery(e.target.value)}
                 placeholder="Search history by title or content..."
-                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#141418] border border-zinc-800 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-700 font-sans"
+                className="w-full pl-8 pr-3 py-1.5 rounded bg-[#16191E] border border-[#20242A] text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-sky-500 font-sans"
               />
             </div>
           </div>
@@ -128,15 +129,15 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
               filteredSessions.map((session, idx) => (
                 <div
                   key={session.id}
-                  className="p-3 rounded-lg bg-[#141418] border border-zinc-800/80 hover:border-zinc-700 transition-all group flex flex-col gap-2"
+                  className="p-3 rounded bg-[#16191E] border border-[#20242A] hover:border-[#2C323B] transition-all group flex flex-col gap-2"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-mono px-1 rounded bg-zinc-800 text-zinc-400">
+                        <span className="text-[10px] font-mono px-1 rounded bg-[#121417] text-zinc-400 border border-[#20242A]">
                           #{idx + 1}
                         </span>
-                        <h3 className="text-xs font-semibold text-zinc-200 truncate group-hover:text-indigo-300 font-sans">
+                        <h3 className="text-xs font-semibold text-zinc-200 truncate group-hover:text-sky-300 font-sans">
                           {session.title}
                         </h3>
                       </div>
@@ -159,7 +160,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                           onRestoreSession(session);
                           onClose();
                         }}
-                        className="flex items-center gap-1 px-2 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-medium transition-colors shadow-sm"
+                        className="flex items-center gap-1 px-2 py-1 rounded bg-[#0284C7] hover:bg-[#0369A1] text-white text-[11px] font-medium transition-colors shadow-sm"
                         title="Restore this payload to editor"
                       >
                         <RotateCcw className="w-3 h-3" />
@@ -176,7 +177,7 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                     </div>
                   </div>
 
-                  <div className="p-1.5 rounded bg-[#09090B] border border-zinc-800 font-mono text-[11px] text-zinc-400 truncate">
+                  <div className="p-1.5 rounded bg-[#0C0D0F] border border-[#20242A] font-mono text-[11px] text-zinc-400 truncate">
                     {session.preview || session.rawJson}
                   </div>
                 </div>
@@ -185,14 +186,14 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
           </div>
 
           {/* Footer Actions */}
-          <div className="p-3 border-t border-zinc-800 bg-[#0A0A0D] flex items-center justify-between text-xs shrink-0">
+          <div className="p-3 border-t border-[#20242A] bg-[#0C0D0F] flex items-center justify-between text-xs shrink-0">
             <button
               onClick={handleExportAll}
               disabled={sessions.length === 0}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-zinc-800/80 hover:bg-zinc-700 disabled:opacity-40 text-zinc-300 transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-[#16191E] hover:bg-[#1E2228] disabled:opacity-40 text-zinc-300 border border-[#20242A] transition-colors"
               title="Backup all history sessions to JSON file"
             >
-              <Download className="w-3.5 h-3.5 text-indigo-400" />
+              <Download className="w-3.5 h-3.5 text-sky-400" />
               <span>Export All</span>
             </button>
 

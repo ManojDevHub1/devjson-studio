@@ -1,75 +1,123 @@
-# DevJSON Studio v2.0 (Flagship API Response Studio)
+# DevJSON Studio
 
-[![Studio v2](https://img.shields.io/badge/DevJSON-Studio%20v2.0-indigo.svg)](https://github.com/open-devtools/devjson-studio)
-[![Zero-DB Series #1](https://img.shields.io/badge/Zero--DB-Series%20%231-6366f1.svg)](https://github.com/open-devtools/devjson-studio)
-[![Offline Ready](https://img.shields.io/badge/Offline-100%25%20Local-10B981.svg)](https://github.com/open-devtools/devjson-studio)
-[![TypeScript 5.x](https://img.shields.io/badge/TypeScript-5.x%20AST-blue.svg)](https://github.com/open-devtools/devjson-studio)
-
-A studio-grade, flagship developer desktop web application inspired by **Linear, Raycast, Vercel Geist, and VS Code**.
-100% Free, Client-Side, and Zero-Database.
+A local-first engineering workbench for inspecting, transforming, validating, and diffing API payloads. All parsing, schema generation, and comparisons run entirely in the browser using Web standard APIs and local AST parsers. Data never leaves your machine.
 
 ---
 
-## 💎 Design & Visual Philosophy
+## Capabilities
 
-- **Zinc/Obsidian Dark Theme:**
-  - App Canvas: `#09090B` (`bg-zinc-950`)
-  - Elevated Header/Toolbar: `#141418`
-  - Panel Surfaces: `#0F0F12`
-  - Hairline Borders: `1px solid rgba(255, 255, 255, 0.07)`
-  - Accents: Emerald (`#10B981` valid RFC 8259), Amber (`#F59E0B` repairable warnings), Indigo (`#6366F1` active engines), Rose (`#EF4444` syntax errors)
-- **Typography:**
-  - UI Font: `Inter` with tight tracking (`tracking-tight`)
-  - Code & Telemetry: `JetBrains Mono`, `Fira Code` (`text-[13px] leading-relaxed`)
-- **Viewport Locked:** Full-screen IDE feel (`h-screen w-screen overflow-hidden`), internal scroll containers only with sleek custom scrollbars.
+### Smart Input Processing
+- **Syntax Auto-Repair:** Corrects unquoted keys, trailing commas, single-quoted strings, unescaped characters, and missing delimiters without losing object structures.
+- **Payload Unwrapper:** Automatically detects and unpacks common non-standard inputs:
+  - Escaped / stringified JSON (`"{\"user\": ...}"`)
+  - JWT tokens (extracts header and decoded payload claims)
+  - cURL commands (extracts request body, headers, method, and endpoint URL)
+  - URL query strings (decodes encoded JSON parameters)
+- **Inline Editing & PII Redaction:** One-click mask for sensitive fields (`password`, `token`, `secret`, `email`, `ssn`) and instant formatting/minification.
 
----
+### Multi-Engine Inspector
+- **Interactive Tree Explorer:** Collapsible nodes with item counters, type badges, inline key/value copy, and JSONPath breadcrumbs.
+- **TypeScript Generator:** Generates strict interfaces or type aliases with automatic nested type extraction, root name configuration, and optional readonly qualifiers.
+- **Zod Schema Generator:** Infers runtime schemas with type guards, including email, URL, UUID, and ISO 8601 datetime format detection.
+- **HTTP Client Code:** Generates production-ready client snippets for native `fetch()`, `axios`, and Mock Service Worker (MSW v2) request handlers.
+- **JSONPath Query Workbench:** Evaluates client-side queries against large payloads with microsecond execution telemetry.
 
-## 🎛️ 3-Tier IDE Architecture
+### Semantic Diff Workbench
+- Dedicated dual-column inspector comparing API revisions (v1 vs v2, staging vs production).
+- Categorizes changes into structural additions, deletions, and scalar value mutations with line-by-line breadcrumb navigation.
 
-### Tier 1: Unified Global Header (`h-12`)
-- **Brand Title & Badges:** `DevJSON STUDIO v2` + `Zero-DB Series #1`.
-- **Preset Switcher Dropdown:**
-  1. `SaaS Production Response (Complex)`
-  2. `Broken JS Object (Test Auto-Fix ✨)`
-  3. `Stripe Webhook Payload (Deep Nesting)`
-- **Interactive Privacy Pill:** `🟢 100% Local • 0 Network Calls` (popover proving local AST execution and IndexedDB storage).
-- **⌘K Command Palette Button:** Keyboard-driven modal for instant actions, tab navigation, presets, and exports.
-- **History (IndexedDB) Drawer:** Stores up to 15 snapshots with diff preview, formatted byte size, relative timestamp, and 1-click restore/delete.
-- **Share Snapshot:** Encodes state into URL hash `#state=...` via `lz-string`. Safely provides `.devjson` export if >4KB.
-
-### Tier 2: Resizable Split-Pane Workbench
-- **Draggable Vertical Divider:** Adjust layout between 25% and 75% width (double-click to reset 50/50).
-
-#### LEFT PANE: Smart Input Editor
-- **Header:** Label `INPUT PAYLOAD` + detected format badge (`Strict JSON`, `Repairable JS Object`, `Invalid Syntax`).
-- **Toolbar:** `Auto-Repair ✨`, `Prettify (2sp)`, `Minify`, `Sort Keys A-Z`, `Paste`, `Clear`.
-- **Editor Body:** Synced line numbers, active line tracking, and tab indentation (2 spaces).
-- **Intelligent Diagnostic Card:** Displays exact line & column, human-friendly explanation, snippet pointer (`^`), and a 1-click `Fix & Format Automatically ✨` button.
-
-#### RIGHT PANE: Multi-Engine Inspector (5 Segmented Tabs)
-1. 🌲 **Tree Explorer:** Interactive collapsible graph with item counters (`{ 5 keys }`, `[ 12 items ]`), color-coded primitives, live search filtering, and hover micro-buttons for **`Copy Path`** (e.g. `root.organization.members[0].email`) and **`Copy Value`**.
-2. 📘 **TypeScript:** AST generator with recursive decomposition of nested objects into distinct named interfaces, heterogeneous array schema merging (`optional ?`), ISO 8601 date comments, and toggleable `interface` vs `type`.
-3. 🛡️ **Zod Schema:** Runtime schema with pattern inference (`.email()`, `.url()`, `.datetime()`, `.uuid()`) and `z.infer` typing.
-4. 🔍 **Query / Filter:** Live client-side JSONPath and wildcard query evaluation (e.g. `$.organization.members[*].name`, `..billing`) with real-time execution telemetry (`0.12 ms • 2 matched`).
-5. 🚀 **API & Mock:** Ready-to-use native `fetch()`, `axios`, and **Mock Service Worker (MSW v2)** handler boilerplate.
-
-### Tier 3: Bottom Telemetry & Status Bar (`h-7`)
-- **Live Status Dot:** `Valid RFC 8259 JSON` / `Auto-Repair Ready ✨` / `Syntax Error at Ln X, Col Y`.
-- **Real-Time Telemetry:** `Size: X.XX KB` • `Total Keys: X` • `Max Depth: X` • `Arrays: X` • `Parse Time: X.X ms`.
-- **Storage & Layout:** `💾 Saved to IndexedDB` + 1-click layout quick switches (`Focus Left`, `50/50`, `Focus Right`).
+### Local-First Persistence & Sharing
+- **Scratchpad Workspaces:** Up to 6 isolated scratchpad tabs persisted locally in IndexedDB.
+- **Snapshot History:** Automatic revision history stored locally without hitting `localStorage` quota limits.
+- **Zero-Backend Sharing:** Payload states compress into standard URL hash fragments using `lz-string`. If a payload exceeds standard URL limits (4 KB), it falls back to a standalone `.devjson` file download.
 
 ---
 
-## ⚡ Quick Start
+## Architecture & Privacy Guarantee
 
+DevJSON Studio has no backend server, no telemetry trackers, and no external API dependencies.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                       Browser Sandbox                       │
+│                                                             │
+│  ┌───────────────────┐               ┌───────────────────┐  │
+│  │    Raw Input      │ ────────────> │  AST & Repair     │  │
+│  │ (JSON/cURL/JWT)   │               │   Engine          │  │
+│  └───────────────────┘               └─────────┬─────────┘  │
+│                                                │            │
+│                 ┌──────────────────────────────┼──────────┐ │
+│                 ▼                              ▼          ▼ │
+│       ┌──────────────────┐           ┌──────────────┐ ┌───┴──────────┐
+│       │ Tree & JSONPath  │           │ TS / Zod Gen │ │ Semantic Diff│
+│       └──────────────────┘           └──────────────┘ └──────────────┘
+│                 │                              │          │ │
+│                 └──────────────┬───────────────┴──────────┘ │
+│                                ▼                            │
+│                      ┌───────────────────┐                  │
+│                      │ Local Storage     │                  │
+│                      │ (IndexedDB)       │                  │
+│                      └───────────────────┘                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+1. **Network Sandbox:** All calculations occur within the client runtime thread. Disconnecting your internet connection does not interrupt any feature.
+2. **Storage:** Snapshots, scratchpad buffers, and preferences are written exclusively to the browser's `IndexedDB` storage via a scoped key-value store.
+3. **PWA Compliance:** Includes web manifest and standalone display configuration for desktop app installation.
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action | Scope |
+| :--- | :--- | :--- |
+| `Ctrl+K` / `Cmd+K` | Open Command Palette | Global |
+| `Ctrl+S` / `Cmd+S` | Save Snapshot to History | Global |
+| `Ctrl+Enter` / `Cmd+Enter` | Format & Prettify Input | Editor |
+| `Alt+Shift+F` | Run Syntax Auto-Repair | Editor |
+| `Ctrl+Z` / `Cmd+Z` | Undo Input Edit | Editor |
+| `Ctrl+Y` / `Cmd+Shift+Z` | Redo Input Edit | Editor |
+| `Esc` | Close Modal / Dismiss Overlay | Global |
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- npm, pnpm, or yarn
+
+### Installation
 ```bash
+# Clone the repository
+git clone https://github.com/open-devtools/devjson-studio.git
+cd devjson-studio
+
 # Install dependencies
 npm install
 
-# Start Vite development server
+# Start the development server
 npm run dev
-
-# Build production bundle
-npm run build
 ```
+
+The application will be accessible at `http://localhost:5173`.
+
+### Production Build
+```bash
+# Typecheck and compile bundle
+npm run build
+
+# Preview production build locally
+npm run preview
+```
+
+---
+
+## Tech Stack
+
+- **Framework:** React 19, TypeScript
+- **Bundler:** Vite 8
+- **Styling:** Tailwind CSS 3 with calibrated slate-charcoal engineering palette
+- **Icons:** Lucide React (14px–16px vector strokes)
+- **Local Database:** idb-keyval (IndexedDB)
+- **Compression:** lz-string (URL hash state encoding)

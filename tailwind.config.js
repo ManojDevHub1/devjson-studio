@@ -8,18 +8,31 @@ export default {
   theme: {
     extend: {
       colors: {
-        app: {
-          bg: '#09090B',
-          surface: '#0F0F12',
-          header: '#141418',
-          border: 'rgba(255, 255, 255, 0.07)',
-          'border-active': 'rgba(255, 255, 255, 0.14)',
-          subtle: '#27272A',
+        canvas: '#0C0D0F',
+        panel: '#121417',
+        elevated: '#171A1E',
+        subtle: '#1C2026',
+        border: {
+          hairline: '#20242A',
+          strong: '#2C323B',
+          focus: '#38BDF8',
         },
+        text: {
+          primary: '#E6EDF3',
+          secondary: '#8B949E',
+          muted: '#6E7681',
+        },
+        brand: {
+          blue: '#38BDF8',
+          emerald: '#10B981',
+          amber: '#F59E0B',
+          rose: '#EF4444',
+          slate: '#64748B',
+        }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'Cascadia Code', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
     },
   },

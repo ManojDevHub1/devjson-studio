@@ -73,26 +73,24 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
       <div 
         onKeyDown={handleKeyDown}
-        className="relative bg-[#0F0F12] border border-zinc-800 rounded-xl shadow-2xl max-w-xl w-full overflow-hidden z-10 animate-command-palette flex flex-col max-h-[500px]"
+        className="relative bg-[#121417] border border-[#2C323B] rounded-lg shadow-2xl max-w-xl w-full overflow-hidden z-10 animate-command-palette flex flex-col max-h-[500px]"
       >
         {/* Search Input */}
-        <div className="h-12 border-b border-zinc-800 px-3.5 flex items-center gap-2.5 bg-[#141418]">
+        <div className="h-12 border-b border-[#20242A] px-3.5 flex items-center gap-2.5 bg-[#0C0D0F]">
           <Search className="w-4 h-4 text-zinc-400" />
           <input
             ref={inputRef}
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Type a command or search action (e.g. Format, Repair, TypeScript)..."
-            className="flex-1 bg-transparent text-sm text-zinc-100 placeholder-zinc-500 outline-none font-sans"
+            placeholder="Type a command (e.g. Format, Repair, TypeScript, Redact)..."
+            className="flex-1 bg-transparent text-sm text-[#E6EDF3] placeholder-zinc-500 outline-none font-sans"
           />
-          <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-zinc-400 bg-zinc-800 rounded border border-zinc-700">
-            ESC
-          </kbd>
+          <kbd>ESC</kbd>
         </div>
 
         {/* Command List */}
-        <div className="flex-1 overflow-y-auto p-2 space-y-1">
+        <div className="flex-1 overflow-y-auto p-2 space-y-0.5">
           {filtered.length === 0 ? (
             <div className="p-8 text-center text-xs text-zinc-500">
               No matching commands found.
@@ -108,12 +106,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                     onClose();
                   }}
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`w-full px-3 py-2 rounded-lg flex items-center justify-between text-left transition-colors ${
-                    isSelected ? 'bg-indigo-600/20 text-white border border-indigo-500/30' : 'text-zinc-300 hover:bg-zinc-900 border border-transparent'
+                  className={`w-full px-3 py-2 rounded flex items-center justify-between text-left transition-colors ${
+                    isSelected ? 'bg-[#182635] text-sky-100 border border-sky-800/40' : 'text-zinc-300 hover:bg-[#16191E] border border-transparent'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className={`${isSelected ? 'text-indigo-400' : 'text-zinc-400'}`}>
+                    <span className={`${isSelected ? 'text-sky-400' : 'text-zinc-400'}`}>
                       {cmd.icon}
                     </span>
                     <span className="text-xs font-medium">{cmd.title}</span>
@@ -124,9 +122,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                       {cmd.category}
                     </span>
                     {cmd.shortcut && (
-                      <kbd className="px-1.5 py-0.5 text-[10px] font-mono text-zinc-400 bg-zinc-800/80 rounded border border-zinc-700">
-                        {cmd.shortcut}
-                      </kbd>
+                      <kbd>{cmd.shortcut}</kbd>
                     )}
                   </div>
                 </button>
@@ -136,13 +132,13 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         </div>
 
         {/* Footer tips */}
-        <div className="h-8 border-t border-zinc-800/80 px-3 flex items-center justify-between text-[11px] text-zinc-500 bg-[#0A0A0D]">
+        <div className="h-8 border-t border-[#20242A] px-3 flex items-center justify-between text-[11px] text-zinc-500 bg-[#0C0D0F]">
           <div className="flex items-center gap-3">
             <span>↑↓ Navigate</span>
             <span>↵ Select</span>
             <span>ESC Close</span>
           </div>
-          <span className="font-mono text-zinc-400">DevJSON Studio v2.0</span>
+          <span className="font-mono text-zinc-400">DevJSON Studio</span>
         </div>
       </div>
     </div>

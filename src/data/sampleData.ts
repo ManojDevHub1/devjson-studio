@@ -77,15 +77,15 @@ export const PRESET_DATASETS: PresetDataset[] = [
   },
   {
     id: 'broken_js_object',
-    name: 'Broken JS Object (Test Auto-Fix ✨)',
+    name: 'Broken JS Object (Test Auto-Repair)',
     category: 'Interactive Test',
     badge: 'Dirty Syntax',
-    description: 'Dirty JS Object with single quotes, unquoted keys, trailing commas, Python literals, and comments.',
-    data: `// Demo dirty JavaScript object ready for 1-click Auto-Repair!
+    description: 'JavaScript object with single quotes, unquoted keys, trailing commas, Python literals, and comments.',
+    data: `// Demo dirty JavaScript object ready for Auto-Repair:
 {
-  title: 'DevJSON Studio v2.0',
-  description: 'Flagship client-side API response workbench',
-  version: 2.0,
+  title: 'DevJSON Studio',
+  description: 'Client-side API payload inspector and code generator',
+  version: 5.1,
   isProductionReady: True,
   deprecated: False,
   legacyPayload: None,

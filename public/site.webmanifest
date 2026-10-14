@@ -1,0 +1,16 @@
+{
+  "name": "DevJSON Studio",
+  "short_name": "DevJSON",
+  "description": "Client-Side API Payload Inspector & Code Generator",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0C0D0F",
+  "theme_color": "#0C0D0F",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

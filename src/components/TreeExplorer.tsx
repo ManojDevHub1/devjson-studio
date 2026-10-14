@@ -173,7 +173,7 @@ export const TreeExplorer: React.FC<TreeExplorerProps> = ({
 
         <div className="flex items-center space-x-1.5 shrink-0">
           <span className="text-[11px] text-zinc-500 mr-1 hidden lg:inline">
-            💡 Double-click value to edit
+            Double-click value to edit
           </span>
 
           <button

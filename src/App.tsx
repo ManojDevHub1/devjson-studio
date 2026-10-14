@@ -223,7 +223,7 @@ export const App: React.FC = () => {
       const urlPayload = extractJsonFromUrl();
       if (urlPayload) {
         setRawJson(urlPayload);
-        showToast('🔗 Loaded snapshot from URL hash');
+        showToast('Loaded snapshot from URL hash');
         return;
       }
 
@@ -459,11 +459,11 @@ export const App: React.FC = () => {
   const handleAutoRepair = () => {
     const res = repairPayload(rawJson);
     if (res.changed) {
-      applyMutationWithUndo(res.repaired, 'Auto-Repair', '✨ Auto-repaired syntax — Press ⌘Z to undo');
+      applyMutationWithUndo(res.repaired, 'Auto-Repair', 'Auto-repaired syntax (Press ⌘Z to undo)');
     } else if (res.error) {
-      showToast(`⚠️ ${res.error}`);
+      showToast(`Syntax error: ${res.error}`);
     } else {
-      showToast('ℹ️ Payload is already valid RFC 8259 JSON');
+      showToast('Payload is already valid RFC 8259 JSON');
     }
   };
 
@@ -471,50 +471,50 @@ export const App: React.FC = () => {
     try {
       // Use Lossless 64-bit BigInt formatting (v5.0)
       const formatted = formatPreservingBigInt(rawJson, 2);
-      applyMutationWithUndo(formatted, 'Prettify JSON', '📐 Prettified JSON (Lossless BigInt Protected)');
+      applyMutationWithUndo(formatted, 'Prettify JSON', 'Prettified JSON (Lossless 64-bit BigInt protected)');
     } catch {
-      showToast('⚠️ Cannot prettify invalid JSON. Click Auto-Repair ✨ first.');
+      showToast('Cannot prettify invalid JSON. Auto-Repair syntax first.');
     }
   };
 
   const handleMinify = () => {
     try {
       const minified = minifyPreservingBigInt(rawJson);
-      applyMutationWithUndo(minified, 'Minify JSON', '⚡ Minified payload (Lossless BigInt Protected)');
+      applyMutationWithUndo(minified, 'Minify JSON', 'Minified JSON (Lossless 64-bit BigInt protected)');
     } catch {
-      showToast('⚠️ Cannot minify invalid JSON. Click Auto-Repair ✨ first.');
+      showToast('Cannot minify invalid JSON. Auto-Repair syntax first.');
     }
   };
 
   const handleSortKeys = () => {
     const res = sortJsonKeys(rawJson);
     if (res.success) {
-      applyMutationWithUndo(res.sorted, 'Sort Keys', '🔤 Sorted object keys (A-Z) — Press ⌘Z to undo');
+      applyMutationWithUndo(res.sorted, 'Sort Keys', 'Sorted object keys A-Z (Press ⌘Z to undo)');
     } else {
-      showToast('⚠️ Cannot sort keys of invalid JSON. Click Auto-Repair ✨ first.');
+      showToast('Cannot sort keys of invalid JSON. Auto-Repair syntax first.');
     }
   };
 
   const handleMaskSecrets = () => {
     const res = maskSecretsInPayload(rawJson);
     if (res.count > 0) {
-      applyMutationWithUndo(res.maskedJson, 'Mask Secrets', `🛡️ Masked ${res.count} sensitive values — Press ⌘Z to undo`);
+      applyMutationWithUndo(res.maskedJson, 'Mask Secrets', `Redacted ${res.count} sensitive fields (Press ⌘Z to undo)`);
     } else {
-      showToast('ℹ️ No sensitive keys detected');
+      showToast('No sensitive keys detected in payload');
     }
   };
 
   const handleApplySelectiveMask = (selectedPaths: string[]) => {
     const res = maskSelectedSecretsInPayload(rawJson, selectedPaths);
     if (res.count > 0) {
-      applyMutationWithUndo(res.maskedJson, 'Selective Mask', `🛡️ Redacted ${res.count} selected fields — Press ⌘Z to undo`);
+      applyMutationWithUndo(res.maskedJson, 'Selective Mask', `Redacted ${res.count} selected fields (Press ⌘Z to undo)`);
     } else {
-      showToast('ℹ️ No fields selected for redaction');
+      showToast('No fields selected for redaction');
     }
   };
 
   const handleApplyUnwrapper = (candidate: UnwrapperCandidate) => {
-    applyMutationWithUndo(candidate.unwrappedJson, candidate.title, `🪄 Applied: ${candidate.actionLabel}`);
+    applyMutationWithUndo(candidate.unwrappedJson, candidate.title, `Unwrapped ${candidate.title}`);
     if (candidate.curlData) {
       setMockEndpoint(candidate.curlData.url);
       setMockMethod(candidate.curlData.method as HttpMethod);
@@ -522,18 +522,18 @@ export const App: React.FC = () => {
         setMockAuthHeader(true);
       }
       setHasCurlExtracted(true);
-      showToast(`🪄 Extracted cURL: ${candidate.curlData.method} ${candidate.curlData.url} → View client.ts`);
+      showToast(`Extracted cURL: ${candidate.curlData.method} ${candidate.curlData.url} → View client.ts`);
     }
   };
 
   const handleClear = () => {
     if (rawJson) {
-      applyMutationWithUndo('', 'Clear Canvas', '🗑️ Cleared canvas — Press ⌘Z to undo');
+      applyMutationWithUndo('', 'Clear Canvas', 'Cleared canvas — Press ⌘Z to undo');
     }
   };
 
   const handleLoadPreset = (preset: PresetDataset) => {
-    applyMutationWithUndo(preset.data, `Load ${preset.name}`, `📦 Loaded preset: ${preset.name}`);
+    applyMutationWithUndo(preset.data, `Load ${preset.name}`, `Loaded preset: ${preset.name}`);
   };
 
   const handleFileUpload = (file: File) => {
@@ -541,7 +541,7 @@ export const App: React.FC = () => {
     reader.onload = (e) => {
       const text = e.target?.result;
       if (typeof text === 'string') {
-        applyMutationWithUndo(text, `Upload ${file.name}`, `📁 Uploaded ${file.name} (${Math.round(file.size / 1024)} KB)`);
+        applyMutationWithUndo(text, `Upload ${file.name}`, `Uploaded ${file.name} (${Math.round(file.size / 1024)} KB)`);
       }
     };
     reader.readAsText(file);
@@ -554,7 +554,7 @@ export const App: React.FC = () => {
   };
 
   const handleRestoreSession = (session: JsonSession) => {
-    applyMutationWithUndo(session.rawJson, `Restore ${session.title}`, `🔄 Restored snapshot: ${session.title}`);
+    applyMutationWithUndo(session.rawJson, `Restore ${session.title}`, `Restored snapshot: ${session.title}`);
   };
 
   const handleDeleteSession = async (id: string) => {
@@ -571,13 +571,13 @@ export const App: React.FC = () => {
 
   const handleDownloadJson = () => {
     downloadFile(rawJson || '{}', 'payload.json', 'application/json');
-    showToast('💾 Downloaded payload.json');
+    showToast('Downloaded payload.json');
   };
 
   const handleDownloadOutput = (filename: string, content: string) => {
     const mime = filename.endsWith('.json') ? 'application/json' : 'text/typescript';
     downloadFile(content, filename, mime);
-    showToast(`💾 Downloaded ${filename}`);
+    showToast(`Downloaded ${filename}`);
   };
 
   const handleUpdateTreeValue = (path: string, newVal: string) => {
@@ -649,23 +649,23 @@ export const App: React.FC = () => {
   const commands: CommandItem[] = useMemo(() => [
     {
       id: 'undo',
-      title: 'Undo Last Action ↩',
+      title: 'Undo Last Action',
       category: 'Actions',
-      icon: <RotateCcw className="w-4 h-4 text-indigo-400" />,
+      icon: <RotateCcw className="w-4 h-4 text-sky-400" />,
       shortcut: '⌘Z',
       run: handleUndo,
     },
     {
       id: 'redo',
-      title: 'Redo Undone Action ↪',
+      title: 'Redo Undone Action',
       category: 'Actions',
-      icon: <RotateCw className="w-4 h-4 text-purple-400" />,
+      icon: <RotateCw className="w-4 h-4 text-zinc-400" />,
       shortcut: '⌘Y',
       run: handleRedo,
     },
     {
       id: 'repair',
-      title: 'Auto-Repair ✨ (Fix quotes, keys, commas, Python)',
+      title: 'Auto-Repair Syntax (Fix quotes, keys, trailing commas)',
       category: 'Actions',
       icon: <Wand2 className="w-4 h-4 text-amber-400" />,
       shortcut: 'Alt+R',
@@ -673,7 +673,7 @@ export const App: React.FC = () => {
     },
     {
       id: 'mask_secrets',
-      title: 'Mask Secrets & Sanitize PII 🛡️',
+      title: 'Mask Sensitive Fields & Redact PII',
       category: 'Actions',
       icon: <Shield className="w-4 h-4 text-amber-400" />,
       shortcut: 'Alt+M',
@@ -681,9 +681,9 @@ export const App: React.FC = () => {
     },
     {
       id: 'copy_bundle',
-      title: 'Copy Full API Bundle 📦 (TS + Zod + Client)',
+      title: 'Copy API Bundle (TypeScript + Zod + Client)',
       category: 'Export',
-      icon: <Package className="w-4 h-4 text-indigo-400" />,
+      icon: <Package className="w-4 h-4 text-sky-400" />,
       run: () => {
         const bundle = [
           '// ==========================================',
@@ -702,12 +702,12 @@ export const App: React.FC = () => {
           mockCode,
         ].join('\n');
         navigator.clipboard.writeText(bundle);
-        showToast('📦 Copied full API bundle (TS + Zod + Client)');
+        showToast('Copied full API bundle (TypeScript + Zod + Client)');
       },
     },
     {
       id: 'toggle_diff',
-      title: workspaceMode === 'studio' ? 'Switch to Semantic Diff ⚖️' : 'Switch to Studio Mode ⚡',
+      title: workspaceMode === 'studio' ? 'Switch to Semantic Diff' : 'Switch to Studio Mode',
       category: 'Views',
       icon: <GitCompare className="w-4 h-4 text-emerald-400" />,
       shortcut: 'Alt+D',
@@ -815,10 +815,10 @@ export const App: React.FC = () => {
   ], [rawJson, workspaceMode, handleUndo, handleRedo, tsCode, zodCode, mockCode, showToast]);
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col bg-[#09090B] text-zinc-100 font-sans select-none">
+    <div className="h-screen w-screen overflow-hidden flex flex-col bg-[#0C0D0F] text-[#E6EDF3] font-sans select-none">
       {/* Toast Alert */}
       {toastMessage && (
-        <div className="fixed top-14 left-1/2 -translate-x-1/2 z-50 px-3.5 py-1.5 rounded-lg bg-[#141418] border border-zinc-700 shadow-2xl text-xs font-medium text-zinc-200 flex items-center gap-2 animate-command-palette">
+        <div className="fixed top-14 left-1/2 -translate-x-1/2 z-50 px-3.5 py-1.5 rounded bg-[#16191E] border border-[#2C323B] shadow-2xl text-xs font-mono text-zinc-200 flex items-center gap-2 animate-command-palette">
           <span>{toastMessage}</span>
         </div>
       )}
@@ -848,7 +848,7 @@ export const App: React.FC = () => {
           onClose={() => setWorkspaceMode('studio')}
         />
       ) : (
-        <main ref={containerRef} className="flex-1 flex overflow-hidden relative">
+        <main ref={containerRef} className="flex-1 flex overflow-hidden relative bg-[#0C0D0F]">
           {/* Left Pane: Smart Input Canvas */}
           <div 
             style={{ width: `${splitPercent}%` }} 
@@ -884,7 +884,7 @@ export const App: React.FC = () => {
           <div
             onMouseDown={handleSplitterMouseDown}
             onDoubleClick={handleSplitterDoubleClick}
-            className="w-[3px] hover:w-1.5 bg-[#141418] hover:bg-indigo-500 active:bg-indigo-600 transition-all z-20 shrink-0 cursor-col-resize flex items-center justify-center group"
+            className="w-[3px] hover:w-1.5 bg-[#1A1D22] hover:bg-sky-500 active:bg-sky-600 transition-all z-20 shrink-0 cursor-col-resize flex items-center justify-center group"
             title="Drag to resize (Double-click to reset 50/50)"
           >
             <div className="w-[1px] h-8 bg-zinc-700 group-hover:bg-white rounded-full transition-colors" />
@@ -893,7 +893,7 @@ export const App: React.FC = () => {
           {/* Right Pane: Virtual IDE Output & Tree Explorer */}
           <div 
             style={{ width: `${100 - splitPercent}%` }} 
-            className="flex flex-col min-w-[280px] h-full overflow-hidden bg-[#09090B]"
+            className="flex flex-col min-w-[280px] h-full overflow-hidden bg-[#0C0D0F]"
           >
             <MultiEngineInspector
               activeTab={activeTab}

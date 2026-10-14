@@ -69,7 +69,7 @@ function tryUnwrapEscapedJson(input: string): UnwrapperCandidate | null {
           return {
             type: 'escaped_json',
             title: 'Escaped / Stringified JSON Detected',
-            actionLabel: '🪄 Unescape & Format JSON',
+            actionLabel: 'Unescape & Format JSON',
             description: 'Double-stringified JSON was detected. Click to parse and unescape.',
             unwrappedJson: JSON.stringify(parsedTwice, null, 2),
           };
@@ -88,7 +88,7 @@ function tryUnwrapEscapedJson(input: string): UnwrapperCandidate | null {
           return {
             type: 'escaped_json',
             title: 'Escaped JSON Detected',
-            actionLabel: '🪄 Unescape & Format JSON',
+            actionLabel: 'Unescape & Format JSON',
             description: 'Escaped quotes were detected. Click to restore valid JSON structure.',
             unwrappedJson: JSON.stringify(parsed, null, 2),
           };
@@ -125,7 +125,7 @@ function tryUnwrapJwt(input: string): UnwrapperCandidate | null {
         return {
           type: 'jwt',
           title: 'JWT Bearer Token Detected',
-          actionLabel: '🪄 Decode JWT Payload to JSON',
+          actionLabel: 'Decode JWT Payload to JSON',
           description: `Decoded claims for ${payload.sub || payload.email || payload.name || 'user'}.`,
           unwrappedJson: JSON.stringify(combined, null, 2),
         };
@@ -202,7 +202,7 @@ function tryUnwrapCurl(input: string): UnwrapperCandidate | null {
       return {
         type: 'curl',
         title: 'cURL Command Detected',
-        actionLabel: '🪄 Extract cURL Payload to Editor',
+        actionLabel: 'Extract cURL Payload to Editor',
         description: `Extracted ${method} ${url} with ${Object.keys(headers).length} headers.`,
         unwrappedJson: parsedBodyJson,
         curlData: {
@@ -260,7 +260,7 @@ function tryUnwrapQueryString(input: string): UnwrapperCandidate | null {
         return {
           type: 'query_string',
           title: 'URL Query String Detected',
-          actionLabel: '🪄 Convert Query String to JSON',
+          actionLabel: 'Convert Query String to JSON',
           description: `Parsed ${Object.keys(result).length} URL parameters into clean JSON.`,
           unwrappedJson: JSON.stringify(result, null, 2),
         };

@@ -140,7 +140,7 @@ export const MultiEngineInspector: React.FC<MultiEngineInspectorProps> = ({
       await navigator.clipboard.writeText(bundle);
       setCopiedAll(true);
       setTimeout(() => setCopiedAll(false), 1800);
-      if (onToast) onToast('📦 Copied full API bundle (TS + Zod + Client)');
+      if (onToast) onToast('Copied full API bundle (TS + Zod + Client)');
     } catch {
       // Fallback
     }
@@ -169,17 +169,17 @@ export const MultiEngineInspector: React.FC<MultiEngineInspectorProps> = ({
   };
 
   const tabs: { id: OutputEngineTab; label: string; icon: React.ReactNode; badge?: boolean }[] = [
-    { id: 'tree', label: '🌿 Tree Explorer', icon: <Network className="w-3.5 h-3.5 text-emerald-400" /> },
-    { id: 'ts', label: 'TS types.ts', icon: <FileCode className="w-3.5 h-3.5 text-indigo-400" /> },
-    { id: 'zod', label: '🛡️ schema.zod.ts', icon: <ShieldAlert className="w-3.5 h-3.5 text-amber-400" /> },
-    { id: 'mock', label: '⚡ client.ts', icon: <Send className="w-3.5 h-3.5 text-purple-400" />, badge: hasCurlExtracted },
-    { id: 'query', label: '🔍 Query (JSONPath)', icon: <Search className="w-3.5 h-3.5 text-cyan-400" /> },
+    { id: 'tree', label: 'Tree', icon: <Network className="w-3.5 h-3.5 text-emerald-400" /> },
+    { id: 'ts', label: 'TypeScript', icon: <FileCode className="w-3.5 h-3.5 text-sky-400" /> },
+    { id: 'zod', label: 'Zod Schema', icon: <ShieldAlert className="w-3.5 h-3.5 text-amber-400" /> },
+    { id: 'mock', label: 'HTTP Client', icon: <Send className="w-3.5 h-3.5 text-cyan-400" />, badge: hasCurlExtracted },
+    { id: 'query', label: 'JSONPath', icon: <Search className="w-3.5 h-3.5 text-zinc-400" /> },
   ];
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#09090B] overflow-hidden select-none">
-      {/* Slim Pane Header (h-9 px-3 bg-[#111114] border-b border-zinc-800/80) */}
-      <div className="h-9 px-3 bg-[#111114] border-b border-zinc-800/80 flex items-center justify-between text-xs shrink-0">
+    <div className="flex-1 flex flex-col h-full bg-[#0C0D0F] overflow-hidden select-none">
+      {/* Slim Pane Header (h-9 px-3 bg-[#121417] border-b border-[#20242A]) */}
+      <div className="h-9 px-3 bg-[#121417] border-b border-[#20242A] flex items-center justify-between text-xs shrink-0">
         {/* Left: IDE File Tabs */}
         <div className="flex items-center space-x-1 overflow-x-auto no-scrollbar">
           {tabs.map((tab) => (
@@ -188,13 +188,14 @@ export const MultiEngineInspector: React.FC<MultiEngineInspectorProps> = ({
               onClick={() => onTabChange(tab.id)}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
                 activeTab === tab.id
-                  ? 'bg-zinc-800 text-white font-semibold shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                  ? 'bg-[#1C2026] text-white font-semibold shadow-sm border border-[#2E343D]'
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#16191E]'
               }`}
             >
+              {tab.icon}
               <span>{tab.label}</span>
               {tab.badge && (
-                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse ml-0.5" title="cURL extracted client code ready" />
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse ml-0.5" title="cURL extracted client code ready" />
               )}
             </button>
           ))}
@@ -204,7 +205,7 @@ export const MultiEngineInspector: React.FC<MultiEngineInspectorProps> = ({
         <div className="flex items-center space-x-1.5 shrink-0">
           {/* Inline Root Name Input Pill (Visible on TS & Zod tabs) */}
           {(activeTab === 'ts' || activeTab === 'zod') && (
-            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-[11px] font-mono shrink-0">
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#0C0D0F] border border-[#20242A] text-[11px] font-mono shrink-0">
               <span className="text-[10px] text-zinc-500 select-none">Root:</span>
               <input
                 type="text"
@@ -215,7 +216,7 @@ export const MultiEngineInspector: React.FC<MultiEngineInspectorProps> = ({
                   onUpdateZodOptions(p => ({ ...p, rootName: val }));
                 }}
                 placeholder="ApiResponse"
-                className="bg-transparent text-indigo-300 w-24 outline-none font-semibold text-[11px] selection:bg-indigo-700"
+                className="bg-transparent text-sky-300 w-24 outline-none font-semibold text-[11px] selection:bg-sky-700"
                 title="Rename root interface/schema"
               />
             </div>
@@ -425,10 +426,10 @@ export const MultiEngineInspector: React.FC<MultiEngineInspectorProps> = ({
             )}
           </button>
 
-          {/* Copy All (TS + Zod + Fetch) Button */}
+          {/* Copy All (TS + Zod + Client) Bundle Button */}
           <button
             onClick={handleCopyAllBundle}
-            className="flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium bg-gradient-to-r from-indigo-950/70 to-purple-950/70 hover:from-indigo-900/80 hover:to-purple-900/80 text-indigo-300 border border-indigo-700/50 transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1 rounded text-[11px] font-medium bg-[#1C2026] hover:bg-[#232830] text-sky-200 border border-[#2E343D] transition-colors shadow-sm"
             title="Copy All: Full typed module bundle (TypeScript + Zod + Client)"
           >
             {copiedAll ? (
@@ -438,8 +439,8 @@ export const MultiEngineInspector: React.FC<MultiEngineInspectorProps> = ({
               </>
             ) : (
               <>
-                <Package className="w-3 h-3 text-indigo-400" />
-                <span>Copy All</span>
+                <Package className="w-3 h-3 text-sky-400" />
+                <span>Copy Bundle</span>
               </>
             )}
           </button>

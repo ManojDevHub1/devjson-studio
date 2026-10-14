@@ -211,22 +211,22 @@ export const SmartEditor: React.FC<SmartEditorProps> = ({
   const formatBadge = {
     valid_json: {
       label: 'Strict JSON',
-      className: 'bg-emerald-950/80 text-emerald-400 border-emerald-800/60',
+      className: 'bg-[#0E2018] text-emerald-400 border-emerald-800/50',
       dotClass: 'bg-emerald-400',
     },
     repairable_js_object: {
       label: 'Repairable JS Object',
-      className: 'bg-amber-950/80 text-amber-300 border-amber-800/60 animate-pulse',
+      className: 'bg-[#261B0E] text-amber-300 border-amber-800/50',
       dotClass: 'bg-amber-400',
     },
     syntax_error: {
       label: 'Invalid Syntax',
-      className: 'bg-rose-950/80 text-rose-400 border-rose-800/60',
+      className: 'bg-[#261014] text-rose-300 border-rose-800/50',
       dotClass: 'bg-rose-400',
     },
     empty: {
       label: 'Empty',
-      className: 'bg-zinc-800 text-zinc-400 border-zinc-700/60',
+      className: 'bg-[#16191E] text-zinc-400 border-[#2C323B]',
       dotClass: 'bg-zinc-500',
     },
   }[format];
@@ -237,20 +237,20 @@ export const SmartEditor: React.FC<SmartEditorProps> = ({
 
   return (
     <div 
-      className={`relative flex-1 flex flex-col h-full bg-[#09090B] overflow-hidden select-none ${
-        isDragOver ? 'ring-2 ring-indigo-500 bg-indigo-950/20' : ''
+      className={`relative flex-1 flex flex-col h-full bg-[#0C0D0F] overflow-hidden select-none ${
+        isDragOver ? 'ring-2 ring-sky-500 bg-sky-950/20' : ''
       }`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      {/* Slim Pane Header (h-9 px-3 bg-[#111114] border-b border-zinc-800/80) */}
-      <div className="h-9 px-3 bg-[#111114] border-b border-zinc-800/80 flex items-center justify-between text-xs shrink-0">
+      {/* Slim Pane Header (h-9 px-3 bg-[#121417] border-b border-[#20242A]) */}
+      <div className="h-9 px-3 bg-[#121417] border-b border-[#20242A] flex items-center justify-between text-xs shrink-0">
         {/* Left: RAW INPUT + format badge */}
         <div className="flex items-center space-x-2">
           <Code2 className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="font-semibold text-zinc-200 tracking-tight text-[11px]">RAW INPUT</span>
-          <div className={`flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-mono border ${formatBadge.className}`}>
+          <span className="font-semibold text-zinc-200 tracking-tight text-[11px]">INPUT</span>
+          <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono border ${formatBadge.className}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${formatBadge.dotClass}`} />
             <span>{formatBadge.label}</span>
           </div>
@@ -258,11 +258,11 @@ export const SmartEditor: React.FC<SmartEditorProps> = ({
 
         {/* Right (Minimal Controls — Hick's Law Compliant) */}
         <div className="flex items-center space-x-1">
-          {/* ↩ Undo button (visible only when undo history stack has items) */}
+          {/* Undo button */}
           {canUndo && (
             <button
               onClick={onUndo}
-              className="flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium bg-zinc-800/80 hover:bg-zinc-700 text-indigo-300 border border-zinc-700/60 transition-colors"
+              className="flex items-center gap-1 px-2 py-1 rounded text-[11px] font-medium bg-[#1C2026] hover:bg-[#232830] text-sky-300 border border-[#2C323B] transition-colors"
               title="Undo last change (⌘Z / Ctrl+Z)"
             >
               <RotateCcw className="w-3 h-3 text-indigo-400" />
@@ -434,7 +434,7 @@ export const SmartEditor: React.FC<SmartEditorProps> = ({
                   className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#141418] hover:bg-zinc-800 text-zinc-300 hover:text-indigo-300 border border-zinc-800 hover:border-indigo-500/40 transition-all flex items-center gap-1.5"
                 >
                   <Sparkles className="w-3 h-3 text-indigo-400" />
-                  <span>⚡ Load Complex API</span>
+                  <span>Load Sample API</span>
                 </button>
 
                 <button
@@ -442,7 +442,7 @@ export const SmartEditor: React.FC<SmartEditorProps> = ({
                   className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#141418] hover:bg-zinc-800 text-zinc-300 hover:text-amber-300 border border-zinc-800 hover:border-amber-500/40 transition-all flex items-center gap-1.5"
                 >
                   <Wand2 className="w-3 h-3 text-amber-400" />
-                  <span>🔧 Test Broken JSON</span>
+                  <span>Test Broken JSON</span>
                 </button>
 
                 <button
@@ -450,7 +450,7 @@ export const SmartEditor: React.FC<SmartEditorProps> = ({
                   className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-[#141418] hover:bg-zinc-800 text-zinc-300 hover:text-emerald-300 border border-zinc-800 hover:border-emerald-500/40 transition-all flex items-center gap-1.5"
                 >
                   <Layers className="w-3 h-3 text-emerald-400" />
-                  <span>💳 Stripe Webhook</span>
+                  <span>Stripe Webhook</span>
                 </button>
               </div>
             </div>
@@ -517,44 +517,44 @@ export const SmartEditor: React.FC<SmartEditorProps> = ({
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 max-w-[92%] select-none">
             {/* Priority 1 (Highest Priority - Unwrap Needed): cURL, JWT, Escaped JSON, URL Query */}
             {unwrapperCandidate && onApplyUnwrapper ? (
-              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#181124]/95 border border-purple-500/50 shadow-2xl backdrop-blur-md text-xs animate-command-palette">
-                <Wand2 className="w-4 h-4 text-purple-400 shrink-0" />
+              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#12151A] border border-[#252B35] shadow-xl text-xs animate-command-palette">
+                <Wand2 className="w-3.5 h-3.5 text-sky-400 shrink-0" />
                 <span className="text-zinc-200 text-[11px] font-mono">
                   {unwrapperCandidate.title}
                 </span>
                 <button
                   onClick={() => onApplyUnwrapper(unwrapperCandidate)}
-                  className="ml-1 px-3 py-1 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-medium text-[11px] transition-all shadow-sm"
+                  className="ml-1 px-3 py-1 rounded-full bg-[#0284C7] hover:bg-[#0369A1] text-white font-medium text-[11px] transition-colors shadow-sm"
                 >
                   {unwrapperCandidate.actionLabel}
                 </button>
               </div>
             ) : diagnostic && format !== 'valid_json' ? (
               /* Priority 2 (Medium): Syntax Error Auto-Repair */
-              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1A1214]/95 border border-amber-500/50 shadow-2xl backdrop-blur-md text-xs animate-command-palette">
-                <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1A140E] border border-[#3A2814] shadow-xl text-xs animate-command-palette">
+                <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                 <span className="text-zinc-200 text-[11px] font-mono">
                   Syntax error at Ln {diagnostic.line} ({diagnostic.message.slice(0, 36)}...)
                 </span>
                 <button
                   onClick={onAutoRepair}
-                  className="ml-1 px-3 py-1 rounded-full bg-amber-500 hover:bg-amber-400 text-zinc-950 font-semibold text-[11px] transition-all shadow-sm"
+                  className="ml-1 px-3 py-1 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white font-medium text-[11px] transition-colors shadow-sm"
                 >
-                  Fix & Format Now ✨
+                  Auto-Repair Syntax
                 </button>
               </div>
             ) : showWarningsPill ? (
               /* Priority 3 (Low): Valid JSON Warnings (Secrets & Unsafe 64-Bit BigInts) */
               <div className="relative" ref={maskPopoverRef}>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#121422]/95 border border-indigo-500/50 shadow-2xl backdrop-blur-md text-xs animate-command-palette">
-                  <ShieldAlert className="w-4 h-4 text-indigo-400 shrink-0" />
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#171A1E] border border-[#2C323B] shadow-xl text-xs animate-command-palette">
+                  <ShieldAlert className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                   <span className="text-zinc-200 text-[11px]">
                     {sensitiveKeysCount > 0 && unsafe64Count > 0 ? (
-                      <>🛡️ {sensitiveKeysCount} Secrets • ⚠️ {unsafe64Count} BigInts</>
+                      <>{sensitiveKeysCount} Sensitive Fields • {unsafe64Count} 64-bit Integers</>
                     ) : sensitiveKeysCount > 0 ? (
-                      <>🛡️ {sensitiveKeysCount} Sensitive Values Detected</>
+                      <>{sensitiveKeysCount} Sensitive Fields Detected</>
                     ) : (
-                      <>⚠️ {unsafe64Count} Unsafe 64-bit BigInts (&gt;15 digits)</>
+                      <>{unsafe64Count} 64-bit Integers (&gt;15 digits)</>
                     )}
                   </span>
 
@@ -563,17 +563,17 @@ export const SmartEditor: React.FC<SmartEditorProps> = ({
                       {/* 1-Click Mask All */}
                       <button
                         onClick={onMaskSecrets}
-                        className="ml-1 px-2.5 py-1 rounded-l-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-[11px] transition-all"
+                        className="ml-1 px-2.5 py-1 rounded-l-full bg-[#202630] hover:bg-[#28303C] text-zinc-100 font-medium text-[11px] border border-[#2E3744] transition-colors"
                         title="Redact all detected sensitive fields"
                       >
-                        Mask All
+                        Redact All
                       </button>
 
                       {/* Caret for Selective Masking Popover */}
                       <button
                         onClick={() => setIsMaskPopoverOpen(!isMaskPopoverOpen)}
-                        className="px-1.5 py-1 rounded-r-full bg-indigo-700 hover:bg-indigo-600 text-indigo-200 text-[11px] border-l border-indigo-500/40"
-                        title="Selectively choose which secrets to mask"
+                        className="px-1.5 py-1 rounded-r-full bg-[#242A35] hover:bg-[#2D3442] text-zinc-300 text-[11px] border-y border-r border-[#2E3744]"
+                        title="Selectively choose which secrets to redact"
                       >
                         <ChevronDown className="w-3 h-3" />
                       </button>

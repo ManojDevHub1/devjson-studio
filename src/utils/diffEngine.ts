@@ -1,10 +1,10 @@
 /**
  * Client-side Structural & Schema Diff Engine.
  * Detects:
- * - Added Keys (🟢)
- * - Removed Keys (🔴)
- * - Type Changes / Breaking API changes (🟡)
- * - Modified Values (🔵)
+ * - Added Keys
+ * - Removed Keys
+ * - Type Changes / Breaking API changes
+ * - Modified Values
  */
 
 export type DiffChangeType = 'added' | 'removed' | 'type_change' | 'modified';

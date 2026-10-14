@@ -4,14 +4,15 @@ import {
   Command, 
   History, 
   Share2, 
-  Zap,
+  Code2,
   GitCompare,
   ShieldCheck,
   Plus,
   X,
   ChevronDown,
   Check,
-  Edit2
+  Edit2,
+  FolderGit2
 } from 'lucide-react';
 import type { WorkspaceTab } from '../utils/storage';
 
@@ -80,48 +81,53 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
   };
 
   return (
-    <header className="h-11 px-3 border-b border-zinc-800/80 flex items-center justify-between bg-[#09090B] select-none z-30 shrink-0 gap-2">
-      {/* Left: Brand + Workspace Dropdown + Workspace Mode Switcher */}
+    <header className="h-11 px-3 border-b border-[#20242A] flex items-center justify-between bg-[#0C0D0F] select-none z-30 shrink-0 gap-2">
+      {/* Left: Brand + Workspace Switcher + Mode Switcher */}
       <div className="flex items-center space-x-3 min-w-0">
-        {/* Brand */}
+        {/* Brand Identity */}
         <div className="flex items-center space-x-2 shrink-0">
-          <div className="w-6 h-6 rounded-md bg-gradient-to-br from-indigo-500 via-indigo-600 to-violet-600 flex items-center justify-center shadow-md shadow-indigo-500/20 ring-1 ring-white/10">
-            <Braces className="w-3.5 h-3.5 text-white stroke-[2.5]" />
+          <div className="w-6 h-6 rounded bg-[#161B22] border border-[#30363D] flex items-center justify-center text-sky-400 shadow-sm">
+            <Braces className="w-3.5 h-3.5 stroke-[2.25]" />
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="font-bold text-sm tracking-tight text-white hidden sm:inline">
+            <span className="font-semibold text-[13px] tracking-tight text-[#E6EDF3] hidden sm:inline">
               DevJSON
             </span>
-            <span className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-zinc-800 text-zinc-300 border border-zinc-700/80 font-mono tracking-wide">
-              v5.1
+            <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-[#16191E] text-zinc-400 border border-[#2C323B]">
+              Studio
             </span>
           </div>
         </div>
 
-        {/* Vertical Divider */}
-        <div className="h-4 w-[1px] bg-zinc-800 hidden sm:block shrink-0" />
+        {/* Hairline Divider */}
+        <div className="h-4 w-[1px] bg-[#20242A] hidden sm:block shrink-0" />
 
-        {/* COMPACT WORKSPACE SWITCHER DROPDOWN PILL (v5.1 Linear-Style) */}
+        {/* WORKSPACE SWITCHER DROPDOWN */}
         {mode === 'studio' && (
           <div className="relative shrink-0" ref={dropdownRef}>
             <button
               onClick={() => setIsWorkspaceOpen(!isWorkspaceOpen)}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-medium bg-[#141418] hover:bg-zinc-800 text-zinc-200 border border-zinc-800 hover:border-zinc-700 transition-colors"
-              title="Switch scratchpad workspace (IndexedDB persisted)"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono font-medium bg-[#121417] hover:bg-[#181B1F] text-[#E6EDF3] border border-[#20242A] hover:border-[#2E343D] transition-colors"
+              title="Switch scratchpad workspace (Stored locally in IndexedDB)"
+              aria-expanded={isWorkspaceOpen}
+              aria-haspopup="listbox"
             >
-              <span>🗂️</span>
+              <FolderGit2 className="w-3.5 h-3.5 text-zinc-400" />
               <span className="text-zinc-500 hidden sm:inline">Workspace:</span>
-              <span className="text-indigo-300 font-semibold truncate max-w-[110px]">
+              <span className="text-sky-300 font-semibold truncate max-w-[120px]">
                 {activeTab ? activeTab.name : 'Payload 1'}
               </span>
               <ChevronDown className="w-3 h-3 text-zinc-500" />
             </button>
 
             {isWorkspaceOpen && (
-              <div className="absolute left-0 top-full mt-1.5 w-64 bg-[#0F0F14] border border-zinc-800 rounded-xl shadow-2xl p-2 z-50 animate-command-palette text-xs font-sans">
-                <div className="flex items-center justify-between pb-1.5 mb-1 px-1.5 border-b border-zinc-800/80 text-[10px] font-semibold text-zinc-500 uppercase tracking-wider font-mono">
+              <div 
+                className="absolute left-0 top-full mt-1.5 w-64 bg-[#121417] border border-[#2C323B] rounded-lg shadow-2xl p-2 z-50 animate-command-palette text-xs"
+                role="listbox"
+              >
+                <div className="flex items-center justify-between pb-1.5 mb-1 px-1.5 border-b border-[#20242A] text-[10px] font-semibold text-zinc-400 uppercase tracking-wider font-mono">
                   <span>Workspaces ({tabs.length}/6)</span>
-                  <span className="text-zinc-600">IndexedDB</span>
+                  <span className="text-zinc-500">IndexedDB</span>
                 </div>
 
                 <div className="space-y-0.5 max-h-56 overflow-y-auto">
@@ -136,15 +142,17 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
                           onSelectTab(tab.id);
                           setIsWorkspaceOpen(false);
                         }}
-                        className={`group flex items-center justify-between px-2 py-1.5 rounded-lg cursor-pointer transition-colors ${
+                        className={`group flex items-center justify-between px-2 py-1.5 rounded cursor-pointer transition-colors ${
                           isActive
-                            ? 'bg-indigo-950/70 text-indigo-200 font-medium border border-indigo-800/50'
-                            : 'hover:bg-zinc-800 text-zinc-300'
+                            ? 'bg-[#182635] text-sky-200 font-medium border border-sky-800/40'
+                            : 'hover:bg-[#181B1F] text-zinc-300'
                         }`}
+                        role="option"
+                        aria-selected={isActive}
                       >
                         <div className="flex items-center gap-2 min-w-0 flex-1">
                           {isActive ? (
-                            <Check className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                            <Check className="w-3.5 h-3.5 text-sky-400 shrink-0" />
                           ) : (
                             <div className="w-3.5 h-3.5 rounded-full border border-zinc-700 shrink-0" />
                           )}
@@ -161,7 +169,7 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
                                 if (e.key === 'Escape') setEditingTabId(null);
                               }}
                               onClick={(e) => e.stopPropagation()}
-                              className="bg-zinc-900 border border-indigo-500 text-white font-mono text-xs px-1 py-0.2 rounded outline-none w-28"
+                              className="bg-[#0C0D0F] border border-sky-500 text-white font-mono text-xs px-1 py-0.5 rounded outline-none w-28"
                             />
                           ) : (
                             <span className="font-mono text-xs truncate">
@@ -177,6 +185,7 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
                               onClick={(e) => handleStartRename(tab, e)}
                               className="p-1 hover:bg-zinc-700 rounded text-zinc-400 hover:text-zinc-200"
                               title="Rename workspace"
+                              aria-label={`Rename workspace ${tab.name}`}
                             >
                               <Edit2 className="w-2.5 h-2.5" />
                             </button>
@@ -190,6 +199,7 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
                               }}
                               className="p-1 hover:bg-rose-950 rounded text-zinc-400 hover:text-rose-400"
                               title="Delete workspace"
+                              aria-label={`Delete workspace ${tab.name}`}
                             >
                               <X className="w-2.5 h-2.5" />
                             </button>
@@ -207,10 +217,10 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
                       onAddTab();
                       setIsWorkspaceOpen(false);
                     }}
-                    className="w-full mt-2 pt-1.5 border-t border-zinc-800 flex items-center justify-center gap-1.5 py-1 text-xs font-medium text-indigo-400 hover:text-indigo-300 hover:bg-indigo-950/40 rounded transition-colors"
+                    className="w-full mt-2 pt-1.5 border-t border-[#20242A] flex items-center justify-center gap-1.5 py-1 text-xs font-medium text-sky-400 hover:text-sky-300 hover:bg-[#161B22] rounded transition-colors"
                   >
                     <Plus className="w-3.5 h-3.5" />
-                    <span>New Scratchpad</span>
+                    <span>New Workspace</span>
                   </button>
                 )}
               </div>
@@ -218,30 +228,34 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
           </div>
         )}
 
-        {/* Center-Left Workspace Mode Switcher */}
-        <div className="flex items-center p-0.5 rounded-lg bg-[#141418] border border-zinc-800/80 text-xs shrink-0">
+        {/* Mode Switcher (Studio vs Semantic Diff) */}
+        <div className="flex items-center p-0.5 rounded bg-[#121417] border border-[#20242A] text-xs shrink-0" role="tablist">
           <button
             onClick={() => onSetMode('studio')}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md font-medium transition-all ${
+            role="tab"
+            aria-selected={mode === 'studio'}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded font-medium transition-all ${
               mode === 'studio'
-                ? 'bg-zinc-800 text-white shadow-sm font-semibold'
+                ? 'bg-[#1C2026] text-white shadow-sm font-semibold'
                 : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            <Zap className="w-3.5 h-3.5 text-indigo-400" />
-            <span className="hidden md:inline">⚡ Studio</span>
+            <Code2 className="w-3.5 h-3.5 text-sky-400" />
+            <span className="hidden md:inline">Studio</span>
             <span className="md:hidden">Studio</span>
           </button>
           <button
             onClick={() => onSetMode('diff')}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md font-medium transition-all ${
+            role="tab"
+            aria-selected={mode === 'diff'}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded font-medium transition-all ${
               mode === 'diff'
-                ? 'bg-zinc-800 text-white shadow-sm font-semibold'
+                ? 'bg-[#1C2026] text-white shadow-sm font-semibold'
                 : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
             <GitCompare className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="hidden md:inline">⚖️ Semantic Diff</span>
+            <span className="hidden md:inline">Semantic Diff</span>
             <span className="md:hidden">Diff</span>
           </button>
         </div>
@@ -251,29 +265,34 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
       <div className="hidden lg:flex items-center shrink-0">
         <button
           onClick={onOpenPrivacy}
-          className="group flex items-center gap-2 px-3 py-1 rounded-full bg-[#141418] hover:bg-zinc-800/90 border border-zinc-800/80 hover:border-emerald-700/60 text-xs text-zinc-300 transition-all shadow-inner"
-          title="Click to view client-side architecture verification"
+          className="group flex items-center gap-2 px-3 py-1 rounded bg-[#121417] hover:bg-[#181B1F] border border-[#20242A] hover:border-emerald-700/50 text-xs text-zinc-300 transition-all"
+          title="Click to view local privacy architecture"
+          aria-label="View security and privacy verification"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-400 group-hover:animate-ping" />
-          <span className="font-medium text-emerald-400 flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            Local-Only (0 Network)
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span className="font-medium text-emerald-400 flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            100% Client-Side
+          </span>
+          <span className="text-[10px] text-zinc-500 font-mono hidden xl:inline">
+            (Zero Outbound)
           </span>
         </button>
       </div>
 
-      {/* Right Controls: History, Share, ⌘K */}
+      {/* Right Controls: History, Share, Command Palette */}
       <div className="flex items-center space-x-1.5 shrink-0">
         {/* History Drawer Trigger */}
         <button
           onClick={onOpenHistory}
-          className="relative flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-[#141418] hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors"
+          className="relative flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium bg-[#121417] hover:bg-[#181B1F] text-zinc-300 border border-[#20242A] transition-colors"
           title="Open IndexedDB History Snapshots"
+          aria-label="Open History Snapshots"
         >
-          <History className="w-3.5 h-3.5 text-indigo-400" />
+          <History className="w-3.5 h-3.5 text-zinc-400" />
           <span className="hidden sm:inline">History</span>
           {historyCount > 0 && (
-            <span className="ml-0.5 px-1.5 py-0.2 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-mono">
+            <span className="ml-0.5 px-1.5 py-0.2 rounded text-[10px] font-bold bg-[#1A2633] text-sky-300 border border-sky-800/40 font-mono">
               {historyCount}
             </span>
           )}
@@ -282,8 +301,9 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
         {/* Share Snapshot */}
         <button
           onClick={onOpenShare}
-          className="flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-sm shadow-indigo-600/25 transition-all"
-          title="Share compressed zero-DB URL snapshot"
+          className="flex items-center gap-1.5 px-3 py-1 rounded text-xs font-medium bg-[#0284C7] hover:bg-[#0369A1] text-white border border-[#38BDF8]/40 shadow-sm transition-all"
+          title="Generate compressed URL state snapshot"
+          aria-label="Share URL snapshot"
         >
           <Share2 className="w-3.5 h-3.5" />
           <span>Share</span>
@@ -292,13 +312,12 @@ export const GlobalHeader: React.FC<GlobalHeaderProps> = ({
         {/* Command Palette Trigger */}
         <button
           onClick={onOpenCommandPalette}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-[#141418] hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium bg-[#121417] hover:bg-[#181B1F] text-zinc-300 border border-[#20242A] transition-colors"
           title="Open Command Palette (⌘K / Ctrl+K)"
+          aria-label="Open Command Palette"
         >
           <Command className="w-3.5 h-3.5 text-zinc-400" />
-          <kbd className="px-1.5 py-0.2 text-[10px] font-mono text-zinc-400 bg-zinc-800/80 rounded border border-zinc-700">
-            ⌘K
-          </kbd>
+          <kbd>⌘K</kbd>
         </button>
       </div>
     </header>

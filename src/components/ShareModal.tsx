@@ -48,89 +48,90 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity" 
       />
 
-      <div className="relative bg-[#0F0F12] border border-zinc-800 rounded-xl shadow-2xl max-w-lg w-full p-5 text-zinc-100 z-10 animate-command-palette">
+      <div className="relative bg-[#121417] border border-[#2C323B] rounded-lg shadow-2xl max-w-lg w-full p-5 text-[#E6EDF3] z-10 animate-command-palette">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <div className="flex items-center justify-between pb-3 border-b border-[#20242A]">
           <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-lg bg-indigo-950/80 border border-indigo-800/60 flex items-center justify-center text-indigo-400">
+            <div className="w-8 h-8 rounded bg-[#161B22] border border-[#30363D] flex items-center justify-center text-sky-400">
               <Share2 className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white tracking-tight">Share Zero-DB Snapshot</h3>
-              <p className="text-[11px] text-zinc-400 font-mono">Compressed into URL Hash (#state=...)</p>
+              <h3 className="text-sm font-semibold text-white tracking-tight">Client-Side URL Snapshot</h3>
+              <p className="text-[11px] text-zinc-400 font-mono">Zero-backend compression into URL hash (#state=...)</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+            className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+            aria-label="Close modal"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Compression Metrics Banner */}
-        <div className="my-4 grid grid-cols-3 gap-2 p-2.5 rounded-lg bg-[#141418] border border-zinc-800 text-center text-xs">
+        <div className="my-4 grid grid-cols-3 gap-2 p-2.5 rounded bg-[#16191E] border border-[#20242A] text-center text-xs">
           <div>
-            <span className="text-[10px] text-zinc-500 block uppercase font-mono">Raw</span>
-            <span className="font-semibold text-zinc-200 font-mono">{shareData.originalLength.toLocaleString()} B</span>
+            <span className="text-[10px] text-zinc-500 block uppercase font-mono">Original</span>
+            <span className="font-semibold text-zinc-200 font-mono tabular-nums">{shareData.originalLength.toLocaleString()} B</span>
           </div>
           <div>
             <span className="text-[10px] text-zinc-500 block uppercase font-mono">Compressed</span>
-            <span className="font-semibold text-indigo-400 font-mono">{shareData.compressedLength.toLocaleString()} B</span>
+            <span className="font-semibold text-sky-400 font-mono tabular-nums">{shareData.compressedLength.toLocaleString()} B</span>
           </div>
           <div>
-            <span className="text-[10px] text-zinc-500 block uppercase font-mono">Saved</span>
-            <span className="font-semibold text-emerald-400 font-mono">-{shareData.compressionRatio}</span>
+            <span className="text-[10px] text-zinc-500 block uppercase font-mono">Reduction</span>
+            <span className="font-semibold text-emerald-400 font-mono tabular-nums">-{shareData.compressionRatio}</span>
           </div>
         </div>
 
         {/* Warning if over 4,000 characters */}
         {shareData.isOverLimit ? (
-          <div className="mb-4 p-3 rounded-lg bg-amber-950/40 border border-amber-800/60 text-xs flex items-start gap-2.5">
+          <div className="mb-4 p-3 rounded bg-[#261B0E] border border-amber-800/50 text-xs flex items-start gap-2.5">
             <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
             <div>
               <span className="font-semibold text-amber-300">
                 Payload Exceeds 4,000 Characters ({shareData.charCount.toLocaleString()} chars)
               </span>
               <p className="text-zinc-300 mt-0.5 text-[11px] leading-relaxed">
-                Some browsers and messaging platforms (Slack, Teams, Discord) truncate URLs longer than ~4,000 characters.
+                Some chat tools and browsers truncate URLs longer than ~4,000 characters. For larger payloads, export a file directly.
               </p>
               <div className="mt-2">
                 <button
                   onClick={handleDownloadDevJson}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-semibold shadow-sm transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-semibold shadow-sm transition-all"
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>Download .devjson file instead</span>
+                  <span>Download .devjson file</span>
                 </button>
               </div>
             </div>
           </div>
         ) : (
-          <div className="mb-4 p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-800/40 text-xs flex items-center gap-2 text-emerald-300">
+          <div className="mb-4 p-2.5 rounded bg-[#0E2018] border border-emerald-800/40 text-xs flex items-center gap-2 text-emerald-300">
             <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Optimal URL length ({shareData.charCount} chars). Safe to share across all apps.</span>
+            <span>Optimal URL length ({shareData.charCount} chars). Compatible with all browsers and messaging clients.</span>
           </div>
         )}
 
         {/* URL Box */}
         <div className="mb-4">
-          <label className="text-[11px] text-zinc-400 font-medium block mb-1.5">
-            Shareable URL Hash:
+          <label className="text-[11px] text-zinc-400 font-medium block mb-1.5 font-mono">
+            Direct Shareable URL:
           </label>
           <div className="flex items-center gap-2">
-            <div className="flex-1 p-2 rounded bg-[#09090B] border border-zinc-800 font-mono text-xs text-zinc-300 truncate">
+            <div className="flex-1 p-2 rounded bg-[#0C0D0F] border border-[#20242A] font-mono text-xs text-zinc-300 truncate">
               {shareData.url}
             </div>
             <button
               onClick={handleCopyLink}
-              className="flex items-center gap-1.5 px-3 py-2 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-all shrink-0 shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-2 rounded bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-semibold transition-all shrink-0 shadow-sm"
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-300" />
-                  <span>Copied!</span>
+                  <Check className="w-3.5 h-3.5 text-white" />
+                  <span>Copied</span>
                 </>
               ) : (
                 <>
@@ -143,18 +144,18 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         </div>
 
         {/* Footer actions */}
-        <div className="flex items-center justify-between pt-3 border-t border-zinc-800 text-xs">
+        <div className="flex items-center justify-between pt-3 border-t border-[#20242A] text-xs">
           <button
             onClick={handleDownloadDevJson}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#1C2026] hover:bg-[#232830] text-zinc-200 border border-[#2C323B] transition-colors"
           >
-            <Download className="w-3.5 h-3.5 text-emerald-400" />
+            <Download className="w-3.5 h-3.5 text-zinc-400" />
             <span>Export .devjson file</span>
           </button>
 
           <button
             onClick={onClose}
-            className="px-3 py-1.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 transition-colors"
+            className="px-3.5 py-1.5 rounded bg-[#1C2026] hover:bg-[#232830] text-zinc-300 border border-[#2C323B] transition-colors"
           >
             Close
           </button>
